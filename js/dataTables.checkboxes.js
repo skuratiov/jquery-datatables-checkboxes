@@ -1,11 +1,12 @@
 /*!
  * jQuery DataTables Checkboxes (https://www.gyrocode.com/projects/jquery-datatables-checkboxes/)
- * Checkboxes extension for jQuery DataTables
+ * Checkboxes extension for jQuery DataTables, jQuery 4x compatible
  *
- * @version     1.3.0
+ * @version     1.3.1
  * @author      Gyrocode LLC (https://www.gyrocode.com)
  * @copyright   (c) Gyrocode LLC
  * @license     MIT
+ * @comatibilty jQuery 4.0 by Sergei Kuratiov
  */
 (function( factory ){
 /* eslint-disable */
@@ -1354,7 +1355,7 @@
     * @name Checkboxes.version
     * @static
     */
-   Checkboxes.version = '1.3.0';
+   Checkboxes.version = '1.3.1';
 
 
    $.fn.DataTable.Checkboxes = Checkboxes;
