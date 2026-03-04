@@ -38,6 +38,11 @@
    'use strict';
    var DataTable = $.fn.dataTable;
 
+   var isFunction = function ( obj ) {
+	   return typeof obj === "function" && typeof obj.nodeType !== "number" &&
+			typeof obj.item !== "function";
+	};
+
 
    /**
    * Checkboxes is an extension for the jQuery DataTables library that provides
@@ -111,6 +116,33 @@
          var hasCheckboxes = false;
          var hasCheckboxesSelectRow = false;
 
+         var class2type = {};
+         var hasOwn = class2type.hasOwnProperty;
+         var fnToString = hasOwn.toString;
+
+         var ObjectFunctionString = fnToString.call( Object );
+
+         var isPlainObject = function( obj ) {
+            var proto, Ctor;
+
+            // Detect obvious negatives
+            // Use toString instead of jQuery.type to catch host objects
+            if ( !obj || toString.call( obj ) !== "[object Object]" ) {
+               return false;
+            }
+
+            proto = Object.getPrototypeOf(obj);
+
+            // Objects with no prototype (e.g., `Object.create( null )`) are plain
+            if ( !proto ) {
+               return true;
+            }
+
+            // Objects with prototype are plain iff they were constructed by a global Object function
+            Ctor = hasOwn.call( proto, "constructor" ) && proto.constructor;
+            return typeof Ctor === "function" && fnToString.call( Ctor ) === ObjectFunctionString;
+         };
+
          for(var i = 0; i < ctx.aoColumns.length; i++){
             if (ctx.aoColumns[i].checkboxes){
                var $colHeader = $(dt.column(i).header());
@@ -121,7 +153,7 @@
 
                hasCheckboxes = true;
 
-               if(!$.isPlainObject(ctx.aoColumns[i].checkboxes)){
+               if(!isPlainObject(ctx.aoColumns[i].checkboxes)){
                   ctx.aoColumns[i].checkboxes = {};
                }
 
@@ -213,7 +245,7 @@
                      var selectAllHtml = '';
 
                      // If "selectAllRender" option is a function
-                     if($.isFunction(ctx.aoColumns[i].checkboxes.selectAllRender)){
+                     if(isFunction(ctx.aoColumns[i].checkboxes.selectAllRender)){
                         selectAllHtml = ctx.aoColumns[i].checkboxes.selectAllRender();
 
                      // Otherwise, if "selectAllRender" option is a string
@@ -612,7 +644,7 @@
             $('input.dt-checkboxes', cellNodes).not(':disabled').prop('checked', isSelected);
 
             // If selectCallback is a function
-            if($.isFunction(ctx.aoColumns[colIdx].checkboxes.selectCallback)){
+            if(isFunction(ctx.aoColumns[colIdx].checkboxes.selectCallback)){
                ctx.aoColumns[colIdx].checkboxes.selectCallback(cellNodes, isSelected);
             }
          }
@@ -898,7 +930,7 @@
                });
 
                // If selectAllCallback is a function
-               if($.isFunction(ctx.aoColumns[colIdx].checkboxes.selectAllCallback)){
+               if(isFunction(ctx.aoColumns[colIdx].checkboxes.selectAllCallback)){
                   ctx.aoColumns[colIdx].checkboxes.selectAllCallback($checkboxesSelectAll.closest('th').get(0), isSelected, isIndeterminate);
                }
             }
