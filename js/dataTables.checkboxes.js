@@ -39,8 +39,8 @@
    var DataTable = $.fn.dataTable;
 
    var isFunction = function ( obj ) {
-	   return typeof obj === "function" && typeof obj.nodeType !== "number" &&
-			typeof obj.item !== "function";
+	   return typeof obj === 'function' && typeof obj.nodeType !== 'number' &&
+			typeof obj.item !== 'function';
 	};
 
 
@@ -127,7 +127,7 @@
 
             // Detect obvious negatives
             // Use toString instead of jQuery.type to catch host objects
-            if ( !obj || toString.call( obj ) !== "[object Object]" ) {
+            if ( !obj || toString.call( obj ) !== '[object Object]' ) {
                return false;
             }
 
@@ -139,8 +139,8 @@
             }
 
             // Objects with prototype are plain iff they were constructed by a global Object function
-            Ctor = hasOwn.call( proto, "constructor" ) && proto.constructor;
-            return typeof Ctor === "function" && fnToString.call( Ctor ) === ObjectFunctionString;
+            Ctor = hasOwn.call( proto, 'constructor' ) && proto.constructor;
+            return typeof Ctor === 'function' && fnToString.call( Ctor ) === ObjectFunctionString;
          };
 
          for(var i = 0; i < ctx.aoColumns.length; i++){
